@@ -290,59 +290,105 @@ export default {
 
 <template>
   <main
-    class="flex flex-col w-full min-h-screen py-20 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
+    class="flex flex-col w-full min-h-screen lg:flex-row bg-white dark:bg-n-background"
   >
-    <section class="max-w-5xl mx-auto">
-      <img
-        :src="globalConfig.logo"
-        :alt="globalConfig.installationName"
-        class="block w-auto h-8 mx-auto dark:hidden"
-      />
-      <img
-        v-if="globalConfig.logoDark"
-        :src="globalConfig.logoDark"
-        :alt="globalConfig.installationName"
-        class="hidden w-auto h-8 mx-auto dark:block"
-      />
-      <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
-        {{ replaceInstallationName($t('LOGIN.TITLE')) }}
-      </h2>
-      <p v-if="showSignupLink" class="mt-3 text-sm text-center text-n-slate-11">
-        {{ $t('COMMON.OR') }}
-        <router-link to="auth/signup" class="lowercase text-link text-n-brand">
-          {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
-        </router-link>
-      </p>
-    </section>
-
-    <!-- Session Limit Section -->
-    <section v-if="sessionsLimitReached" class="mt-11">
-      <SessionLimitOverlay
-        :sessions="limitedSessions"
-        @revoke="handleSessionRevoke"
-        @revoke-all="handleSessionRevokeAll"
-        @cancel="handleSessionLimitCancel"
-      />
-    </section>
-
-    <!-- MFA Verification Section -->
-    <section v-else-if="mfaRequired" class="mt-11">
-      <MfaVerification
-        :mfa-token="mfaToken"
-        @verified="handleMfaVerified"
-        @cancel="handleMfaCancel"
-      />
-    </section>
-
-    <!-- Regular Login Section -->
-    <section
-      v-else
-      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
-      :class="{
-        'mb-8 mt-15': !showGoogleOAuth,
-        'animate-wiggle': loginApi.hasErrored,
-      }"
+    <!-- Brand Panel (left) — hidden on small screens -->
+    <aside
+      class="relative flex-col justify-between hidden p-12 overflow-hidden text-white lg:flex lg:w-1/2 bg-n-brand"
     >
+      <!-- decorative shapes -->
+      <div
+        class="absolute rounded-full pointer-events-none -top-24 -left-24 size-96 bg-white/10"
+      />
+      <div
+        class="absolute rounded-full pointer-events-none -bottom-32 -right-16 size-[28rem] bg-white/5"
+      />
+
+      <img
+        :src="globalConfig.logoDark || globalConfig.logo"
+        :alt="globalConfig.installationName"
+        class="relative w-auto h-10"
+      />
+
+      <div class="relative max-w-md">
+        <h1 class="text-4xl font-semibold leading-tight">
+          {{ replaceInstallationName($t('LOGIN.TITLE')) }}
+        </h1>
+        <p class="mt-4 text-lg text-white/80">
+          {{
+            replaceInstallationName(
+              'Atendimento omnichannel inteligente, centralizado em um só lugar.'
+            )
+          }}
+        </p>
+      </div>
+
+      <p class="relative text-sm text-white/70">
+        Desenvolvido por RS Tecnologias
+      </p>
+    </aside>
+
+    <!-- Form Panel (right) -->
+    <div
+      class="flex flex-col justify-center w-full px-6 py-12 lg:w-1/2 sm:px-12"
+    >
+      <section class="w-full max-w-md mx-auto">
+        <!-- logo shown on top only for small screens where the brand panel is hidden -->
+        <img
+          :src="globalConfig.logo"
+          :alt="globalConfig.installationName"
+          class="block w-auto h-8 mx-auto lg:hidden dark:hidden"
+        />
+        <img
+          v-if="globalConfig.logoDark"
+          :src="globalConfig.logoDark"
+          :alt="globalConfig.installationName"
+          class="hidden w-auto h-8 mx-auto dark:lg:hidden dark:block"
+        />
+        <h2
+          class="mt-6 text-3xl font-medium text-center lg:mt-0 lg:text-left text-n-slate-12"
+        >
+          {{ replaceInstallationName($t('LOGIN.TITLE')) }}
+        </h2>
+        <p
+          v-if="showSignupLink"
+          class="mt-3 text-sm text-center lg:text-left text-n-slate-11"
+        >
+          {{ $t('COMMON.OR') }}
+          <router-link to="auth/signup" class="lowercase text-link text-n-brand">
+            {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
+          </router-link>
+        </p>
+      </section>
+
+      <!-- Session Limit Section -->
+      <section
+        v-if="sessionsLimitReached"
+        class="w-full max-w-md mx-auto mt-8"
+      >
+        <SessionLimitOverlay
+          :sessions="limitedSessions"
+          @revoke="handleSessionRevoke"
+          @revoke-all="handleSessionRevokeAll"
+          @cancel="handleSessionLimitCancel"
+        />
+      </section>
+
+      <!-- MFA Verification Section -->
+      <section v-else-if="mfaRequired" class="w-full max-w-md mx-auto mt-8">
+        <MfaVerification
+          :mfa-token="mfaToken"
+          @verified="handleMfaVerified"
+          @cancel="handleMfaCancel"
+        />
+      </section>
+
+      <!-- Regular Login Section -->
+      <section
+        v-else
+        class="w-full max-w-md mx-auto mt-8"
+        :class="{ 'animate-wiggle': loginApi.hasErrored }"
+      >
       <div v-if="!email">
         <div class="flex flex-col gap-4">
           <GoogleOAuthButton v-if="showGoogleOAuth" />
@@ -417,5 +463,6 @@ export default {
         <Spinner color-scheme="primary" size="" />
       </div>
     </section>
+    </div>
   </main>
 </template>
