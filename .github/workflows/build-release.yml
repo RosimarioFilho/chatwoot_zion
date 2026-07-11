@@ -24,7 +24,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository_owner }}/zion
+  IMAGE_NAME: rosimariofilho/zion
 
 jobs:
   build-and-push:
