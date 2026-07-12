@@ -55,6 +55,7 @@ Rails.application.routes.draw do
             resource :contact_merge, only: [:create]
           end
           resource :bulk_actions, only: [:create]
+          get 'crm/sso_token', to: 'crm#sso_token'
           resource :onboarding, only: [:update] do
             get :help_center_generation
           end
