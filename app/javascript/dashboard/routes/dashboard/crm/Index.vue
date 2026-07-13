@@ -1,6 +1,5 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
 import { useMapGetter } from 'dashboard/composables/store';
 
 const accountId = useMapGetter('getCurrentAccountId');
@@ -9,7 +8,9 @@ const state = ref('loading'); // loading | ready | error
 
 onMounted(async () => {
   try {
-    const { data } = await axios.get(
+    // window.axios é a instância autenticada do Chatwoot (com os headers do
+    // devise). O `import axios` cru não carrega a autenticação → 401.
+    const { data } = await window.axios.get(
       `/api/v1/accounts/${accountId.value}/crm/sso_token`
     );
     iframeSrc.value = `${data.url}/sso?token=${encodeURIComponent(data.token)}`;
