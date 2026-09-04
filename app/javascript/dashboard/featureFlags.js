@@ -9,6 +9,8 @@ export const FEATURE_FLAGS = {
   WHATSAPP_CAMPAIGNS: 'whatsapp_campaign',
   CANNED_RESPONSES: 'canned_responses',
   CRM: 'crm',
+  ZION_CRM: 'zion_crm',
+  ZION_CAPTAR: 'zion_captar',
   CUSTOM_ATTRIBUTES: 'custom_attributes',
   INBOX_MANAGEMENT: 'inbox_management',
   INTEGRATIONS: 'integrations',

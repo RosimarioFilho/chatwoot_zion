@@ -68,6 +68,16 @@ const hasAdvancedAssignment = computed(() => {
   );
 });
 
+// Apps companheiros embedados (Zion Leads / Captar). Cada conta liga o que usa
+// nas features do Super Admin - o item so aparece na sidebar se estiver ligado.
+const hasZionCrm = computed(() =>
+  isFeatureEnabledonAccount.value(accountId.value, FEATURE_FLAGS.ZION_CRM)
+);
+
+const hasZionCaptar = computed(() =>
+  isFeatureEnabledonAccount.value(accountId.value, FEATURE_FLAGS.ZION_CAPTAR)
+);
+
 const hasConversationUnreadCounts = computed(() => {
   return isFeatureEnabledonAccount.value(
     accountId.value,
@@ -434,12 +444,19 @@ const menuItems = computed(() => {
         },
       ],
     },
-    {
+    hasZionCrm.value && {
       name: 'CRM',
-      label: 'CRM',
+      label: t('SIDEBAR.ZION_CRM'),
       icon: 'i-lucide-square-kanban',
       to: accountScopedRoute('crm_index'),
       activeOn: ['crm_index'],
+    },
+    hasZionCaptar.value && {
+      name: 'Captar',
+      label: t('SIDEBAR.CAPTAR'),
+      icon: 'i-lucide-filter',
+      to: accountScopedRoute('captar_index'),
+      activeOn: ['captar_index'],
     },
     {
       name: 'Captain',
@@ -850,7 +867,7 @@ const menuItems = computed(() => {
         },
       ],
     },
-  ];
+  ].filter(Boolean);
 });
 </script>
 

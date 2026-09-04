@@ -1,4 +1,8 @@
 {
+  "EXTERNAL_APPS": {
+    "LOADING": "Loading {app}…",
+    "ERROR": "Could not open {app}. Please try again."
+  },
   "GENERAL": {
     "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items",
     "PHONE_INPUT": {

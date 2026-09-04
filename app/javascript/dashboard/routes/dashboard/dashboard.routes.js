@@ -9,7 +9,7 @@ import { frontendURL } from '../../helper/URLHelper';
 import helpcenterRoutes from './helpcenter/helpcenter.routes';
 import campaignsRoutes from './campaigns/campaigns.routes';
 import { routes as captainRoutes } from './captain/captain.routes';
-import { routes as crmRoutes } from './crm/crm.routes';
+import { routes as externalAppsRoutes } from './externalApps/externalApps.routes';
 import AppContainer from './Dashboard.vue';
 import Suspended from './suspended/Index.vue';
 import NoAccounts from './noAccounts/Index.vue';
@@ -22,7 +22,7 @@ export default {
       component: AppContainer,
       children: [
         ...captainRoutes,
-        ...crmRoutes,
+        ...externalAppsRoutes,
         ...inboxRoutes,
         ...conversation.routes,
         ...settings.routes,

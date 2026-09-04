@@ -55,7 +55,10 @@ Rails.application.routes.draw do
             resource :contact_merge, only: [:create]
           end
           resource :bulk_actions, only: [:create]
-          get 'crm/sso_token', to: 'crm#sso_token'
+          # Apps companheiros embedados (Zion Leads / Captar) - SSO por JWT.
+          get 'external_apps/:app_key/sso_token', to: 'external_apps#sso_token'
+          # Rota legada do CRM, mantida para nao quebrar bundles em cache.
+          get 'crm/sso_token', to: 'external_apps#sso_token', defaults: { app_key: 'crm' }
           resource :onboarding, only: [:update] do
             get :help_center_generation
           end
