@@ -37,6 +37,8 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
     permitted_params = super
     permitted_params[:limits] = permitted_params[:limits].to_h.compact
     permitted_params[:selected_feature_flags] = params[:enabled_features].keys.map(&:to_sym) if params[:enabled_features].present?
+    # Apps da Zion vivem em custom_attributes, nao nas feature flags (ver ZionAppable).
+    permitted_params[:selected_zion_apps] = params[:zion_apps].select { |_app, on| on == '1' }.keys if params[:zion_apps].present?
     permitted_params
   end
 

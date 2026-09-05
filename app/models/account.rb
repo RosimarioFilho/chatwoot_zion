@@ -27,6 +27,7 @@ class Account < ApplicationRecord
   include FlagShihTzu
   include Reportable
   include Featurable
+  include ZionAppable
   include CacheKeys
   include CaptainFeaturable
   include AccountEmailRateLimitable

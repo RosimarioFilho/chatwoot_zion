@@ -1,0 +1,20 @@
+<div class="field-unit__label">
+  <%= f.label field.attribute %>
+</div>
+<div class="field-unit__field">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <% field.apps.each do |app_key, display_name| %>
+      <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm outline outline-1 outline-n-container">
+        <span class="text-sm text-slate-700"><%= display_name %></span>
+        <%# checked/unchecked "1"/"0" de proposito: assim o Rails emite o campo oculto e
+    desmarcar chega no controller como "0". Com unchecked_value falsy (o padrao
+    do campo de features do Chatwoot) o desmarcado nao seria enviado e nao daria
+    para desligar um app. %>
+        <span><%= check_box "zion_apps", app_key, { checked: field.data[app_key], class: "h-4 w-4 rounded border-slate-300 text-violet-600 focus:ring-violet-600" } %></span>
+      </div>
+    <% end %>
+  </div>
+  <p class="mt-3 text-sm text-slate-500">
+    Cada app marcado vira um item no menu lateral desta conta, com login automático por SSO.
+  </p>
+</div>

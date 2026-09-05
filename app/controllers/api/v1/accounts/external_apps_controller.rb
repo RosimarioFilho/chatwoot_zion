@@ -3,12 +3,13 @@
 # o mesmo segredo e checa issuer/audience/scope/jti (anti-replay), garantindo que
 # o agente e o correto (auditoria/historico por atendente).
 #
-# Cada conta escolhe quais apps usa via feature flags no Super Admin
-# (zion_crm / zion_captar) - o menu na sidebar segue as mesmas flags.
+# Cada conta escolhe quais apps usa nos checkboxes do Super Admin
+# (zion_crm / zion_captar, ver ZionAppable) - o menu na sidebar segue o mesmo
+# estado.
 class Api::V1::Accounts::ExternalAppsController < Api::V1::Accounts::BaseController
   APPS = {
     'crm' => {
-      feature: 'zion_crm',
+      key: 'zion_crm',
       audience: 'zion-crm',
       scope: 'crm:session',
       url_env: 'ZION_CRM_URL',
@@ -16,7 +17,7 @@ class Api::V1::Accounts::ExternalAppsController < Api::V1::Accounts::BaseControl
       secret_env: 'CRM_JWT_SECRET'
     },
     'captar' => {
-      feature: 'zion_captar',
+      key: 'zion_captar',
       audience: 'zion-captar',
       scope: 'captar:session',
       url_env: 'ZION_CAPTAR_URL',
@@ -30,7 +31,7 @@ class Api::V1::Accounts::ExternalAppsController < Api::V1::Accounts::BaseControl
   before_action :set_app
 
   def sso_token
-    return render json: { error: 'App nao habilitado para esta conta' }, status: :forbidden unless feature_enabled?
+    return render json: { error: 'App nao habilitado para esta conta' }, status: :forbidden unless app_enabled?
     return render json: { error: 'SSO nao configurado' }, status: :service_unavailable if secret.blank?
 
     render json: {
@@ -46,8 +47,8 @@ class Api::V1::Accounts::ExternalAppsController < Api::V1::Accounts::BaseControl
     render json: { error: 'App desconhecido' }, status: :not_found if @app.blank?
   end
 
-  def feature_enabled?
-    Current.account.feature_enabled?(@app[:feature])
+  def app_enabled?
+    Current.account.zion_app_enabled?(@app[:key])
   end
 
   # Segredo proprio do app quando definido; senao o segredo compartilhado da Zion.

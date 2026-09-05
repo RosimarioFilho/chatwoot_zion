@@ -24,7 +24,9 @@ if resource.custom_attributes.present?
   end
 end
 json.domain @account.domain
-json.features @account.enabled_features
+# Os apps da Zion viajam junto das features para o front consultar tudo pelo
+# mesmo getter; eles nao sao feature flags do Chatwoot (ver ZionAppable).
+json.features @account.enabled_features.merge(@account.zion_apps)
 json.id @account.id
 json.locale @account.locale
 json.name @account.name

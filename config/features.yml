@@ -241,11 +241,3 @@
   display_name: Advanced Assignment
   enabled: false
   premium: true
-# Zion: apps companheiros embedados (menu na sidebar + SSO por JWT).
-# Desligados por padrao -> ligar por conta no Super Admin.
-- name: zion_crm
-  display_name: Zion Leads (CRM)
-  enabled: false
-- name: zion_captar
-  display_name: Captar (Forca de Vendas)
-  enabled: false
