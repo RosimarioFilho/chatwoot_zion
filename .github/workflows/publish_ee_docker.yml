@@ -6,13 +6,12 @@
 
 name: Publish Chatwoot EE docker images
 
+# Zion: o gatilho por push/tag foi removido de proposito. Este workflow publica
+# em chatwoot/chatwoot no Docker Hub, com secrets que so existem no repositorio
+# original -- num fork ele so falha com "Username and password required" a cada
+# tag. O release da Zion e o build-release.yml (ghcr.io). Mantido aqui, so em
+# disparo manual, para nao conflitar em merges com o upstream.
 on:
-  push:
-    branches:
-      - develop
-      - master
-    tags:
-      - v*
   workflow_dispatch:
 
 env:
